@@ -52,6 +52,12 @@ Converts a plain object to its GraphQL string representation.
 
 Converts a supported type to its GraphQL string representation, or throws an error.
 
+## Related
+
+- [mongease](https://github.com/fabiospampinato/mongease) - Tiny wrapper around Mongoose for easier creation of schemas and models. Supports plugins.
+- [mongease-graphql](https://github.com/fabiospampinato/mongease-graphql) - Mongease plugin for adding support to GraphQL schemas creation.
+- [mongease-graphql-builder](https://github.com/fabiospampinato/mongease-graphql-builder) - Module for auto-generating simple GraphQL queries from Mongease descriptions.
+
 ## License
 
 MIT © Fabio Spampinato
