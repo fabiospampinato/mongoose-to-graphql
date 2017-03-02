@@ -38,6 +38,7 @@
   "keywords": [
     "mongoose",
     "graphql",
+    "schema",
     "conversion"
   ],
   "dependencies": {
