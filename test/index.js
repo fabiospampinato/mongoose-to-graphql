@@ -3,7 +3,7 @@
 
 import {describe} from 'ava-spec';
 import callSpy from 'call-spy';
-import Mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import M2G, {schema, model, plainObject, type} from '../dist'
 
 /* MONGOOSE TO GRAPHQL */
@@ -20,7 +20,7 @@ describe ( 'Mongoose to Graphql', it => {
     M2G ( ...args );
 
     t.true ( res.called );
-    t.deepEqual ( res.args, args );
+    t.deepEqual ( res.arguments, args );
 
   });
 
@@ -44,11 +44,11 @@ describe ( 'Mongoose to Graphql', it => {
 
     it ( 'Converts a model', t => {
 
-      const S = new Mongoose.Schema ({
+      const S = new mongoose.Schema ({
         title: String,
         category: Number
       });
-      const M = Mongoose.model ( 'TestModel', S );
+      const M = mongoose.model ( 'TestModel', S );
       const res = {};
 
       M2G.schema = callSpy ( schema, res );
@@ -56,8 +56,8 @@ describe ( 'Mongoose to Graphql', it => {
       model ( M );
 
       t.true ( res.called );
-      t.is ( res.args[0], 'TestModel' );
-      t.is ( res.result.replace ( /\s+/g, ' ' ), 'type TestModel { title: String category: Float }' );
+      t.is ( res.arguments[0], 'TestModel' );
+      t.is ( res.return.replace ( /\s+/g, ' ' ), 'type TestModel { title: String category: Float }' );
 
     });
 
@@ -87,7 +87,7 @@ describe ( 'Mongoose to Graphql', it => {
         'Float': Number,
         'Date': Date,
         'Boolean': Boolean,
-        'ID': Mongoose.Schema.Types.ObjectId,
+        'ID': mongoose.Schema.Types.ObjectId,
         '[]': Array,
         'CustomType': 'CustomType',
         '[String]': [String],
@@ -117,7 +117,7 @@ describe ( 'Mongoose to Graphql', it => {
 
     it ( 'Converts Mongoose\'s schemas', t => {
 
-      const schema = new Mongoose.Schema ({ category: Number }),
+      const schema = new mongoose.Schema ({ category: Number }),
             res = {};
 
       M2G.plainObject = callSpy ( plainObject, res );
@@ -125,14 +125,14 @@ describe ( 'Mongoose to Graphql', it => {
       type ( schema );
 
       t.true ( res.called );
-      t.deepEqual ( res.args, [schema.obj] );
+      t.deepEqual ( res.arguments, [schema.obj] );
 
     });
 
     it ( 'Converts Mongoose\'s models', t => {
 
-      const schema = new Mongoose.Schema ({ category: Number }),
-            model = Mongoose.model ( 'TestType', schema ),
+      const schema = new mongoose.Schema ({ category: Number }),
+            model = mongoose.model ( 'TestType', schema ),
             res = {};
 
       t.is ( type ( model ), 'TestType' );
