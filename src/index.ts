@@ -7,6 +7,8 @@ import {mongooseToGraphQL} from './types';
 
 /* MONGOOSE TO GRAPHQL */
 
+//TODO: Add support for { type: Something: ref: 'Model' }
+
 const M2G = function ( ...args ) {
 
   return M2G.schema ( ...args );
