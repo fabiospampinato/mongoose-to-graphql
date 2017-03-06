@@ -93,11 +93,24 @@ M2G.type = function ( type ): string { //TODO: Add support for JSON
 
     }
 
-  } else if ( _.isFunction ( type ) && 'modelName' in type ) {
+  } else if ( _.isFunction ( type ) ) {
 
-    return type.modelName;
+    if ( 'modelName' in type ) {
 
-  } else if ( type instanceof Schema ) {
+      return type.modelName;
+
+    } else if ( 'schemaName' in type ) {
+
+      switch ( type.schemaName ) {
+
+        case 'ObjectId': return 'ID';
+        // case Mixed: return; //TODO: Implement
+
+      }
+
+    }
+
+  } else if ( _.isObject ( type ) && 'childSchemas' in type && 'obj' in type ) { // Is a Mongoose's Schema
 
     return M2G.plainObject ( type['obj'] );
 
