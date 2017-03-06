@@ -57,8 +57,6 @@ M2G.plainObject = function ( obj: {} ): string {
 
 M2G.type = function ( type ): string { //TODO: Add support for JSON
 
-  const {/*Mixed,*/ ObjectId} = Schema.Types;
-
   switch ( type ) {
 
     case String: return 'String';
@@ -66,8 +64,6 @@ M2G.type = function ( type ): string { //TODO: Add support for JSON
     case Date: return 'Date';
     // case Buffer: return; //TODO: Implement
     case Boolean: return 'Boolean';
-    // case Mixed: return; //TODO: Implement
-    case ObjectId: return 'ID';
     case Array: return '[]';
 
   }
