@@ -12,7 +12,7 @@ describe ( 'Mongoose to Graphql', it => {
 
   it ( 'Passes everything to `.schema`', t => {
 
-    const args = [{}, true],
+    const args = ['Something', {}],
           res = {};
 
     M2G.schema = callSpy ( schema, res );

@@ -19,9 +19,29 @@ const M2G = function ( ...args ) {
 
 M2G.schema = function ( name: string, schema: {} | Schema ): string {
 
-  if ( schema instanceof Schema ) return M2G.schema ( name, schema.obj );
+  if ( 'childSchemas' in schema && 'obj' in schema ) return M2G.schema ( name, schema.obj ); // Is a Mongoose's Schema
 
-  return `type ${name} ${M2G.plainObject ( schema )}`;
+  const types: string[] = [];
+
+  schema = _.cloneDeep ( schema );
+
+  _.transform ( schema, ( acc, val, key: string ) => {
+
+    const sub = _.isArray ( val ) ? val[0] : val;
+
+    if ( !_.isPlainObject ( sub ) || sub.hasOwnProperty ( 'type' ) ) return;
+
+    const subName = `${name}_${_.uniqueId ()}`;
+
+    schema[key] = _.isArray ( val ) ? [subName] : subName;
+
+    types.push ( M2G.schema ( subName, sub ) );
+
+  });
+
+  types.push ( `type ${name} ${M2G.plainObject ( schema )}` );
+
+  return types.join ( '\n' );
 
 };
 
