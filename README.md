@@ -1,8 +1,5 @@
 # Mongoose to Graphql
 
-![Issues](https://img.shields.io/github/issues/fabiospampinato/mongoose-to-graphql.svg)
-[![NPM version](https://img.shields.io/npm/v/mongoose-to-graphql.svg)](https://www.npmjs.com/package/mongoose-to-graphql)
-
 Converts a Mongoose schema to its GraphQL representation.
 
 ## Install
