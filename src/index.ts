@@ -1,7 +1,14 @@
 
 /* IMPORT */
 
-import * as _ from 'lodash';
+import cloneDeep = require ( 'lodash/cloneDeep' );
+import isArray = require ( 'lodash/isArray' );
+import isFunction = require ( 'lodash/isFunction' );
+import isObject = require ( 'lodash/isObject' );
+import isPlainObject = require ( 'lodash/isPlainObject' );
+import isString = require ( 'lodash/isString' );
+import transform = require ( 'lodash/transform' );
+import uniqueId = require ( 'lodash/uniqueId' );
 import {Schema} from 'mongoose';
 import {mongooseToGraphQL} from './types';
 
@@ -23,17 +30,17 @@ M2G.schema = function ( name: string, schema: {} | Schema ): string {
 
   const types: string[] = [];
 
-  schema = _.cloneDeep ( schema );
+  schema = cloneDeep ( schema );
 
-  _.transform ( schema, ( acc, val, key: string ) => {
+  transform ( schema, ( acc: any, val: any, key: string ) => {
 
-    const sub = _.isArray ( val ) ? val[0] : val;
+    const sub = isArray ( val ) ? val[0] : val;
 
-    if ( !_.isPlainObject ( sub ) || sub.hasOwnProperty ( 'type' ) ) return;
+    if ( !isPlainObject ( sub ) || sub.hasOwnProperty ( 'type' ) ) return;
 
-    const subName = `${name}_${_.uniqueId ()}`;
+    const subName = `${name}_${uniqueId ()}`;
 
-    schema[key] = _.isArray ( val ) ? [subName] : subName;
+    schema[key] = isArray ( val ) ? [subName] : subName;
 
     types.push ( M2G.schema ( subName, sub ) );
 
@@ -88,17 +95,17 @@ M2G.type = function ( type ): string { //TODO: Add support for JSON
 
   }
 
-  if ( _.isString ( type ) ) {
+  if ( isString ( type ) ) {
 
     return type;
 
-  } else if ( _.isArray ( type ) ) {
+  } else if ( isArray ( type ) ) {
 
     const converted = type.length ? M2G.type ( type[0] ) : '';
 
     return `[${converted}]`;
 
-  } else if ( _.isPlainObject ( type ) ) {
+  } else if ( isPlainObject ( type ) ) {
 
     if ( type.hasOwnProperty ( 'type' ) ) {
 
@@ -113,15 +120,15 @@ M2G.type = function ( type ): string { //TODO: Add support for JSON
 
     }
 
-  } else if ( _.isFunction ( type ) ) {
+  } else if ( isFunction ( type ) ) {
 
     if ( 'modelName' in type ) {
 
-      return type.modelName;
+      return type['modelName'];
 
     } else if ( 'schemaName' in type ) {
 
-      switch ( type.schemaName ) {
+      switch ( type['schemaName'] ) {
 
         case 'ObjectId': return 'ID';
         // case Mixed: return; //TODO: Implement
@@ -130,7 +137,7 @@ M2G.type = function ( type ): string { //TODO: Add support for JSON
 
     }
 
-  } else if ( _.isObject ( type ) && 'childSchemas' in type && 'obj' in type ) { // Is a Mongoose's Schema
+  } else if ( isObject ( type ) && 'childSchemas' in type && 'obj' in type ) { // Is a Mongoose's Schema
 
     return M2G.plainObject ( type['obj'] );
 
@@ -144,5 +151,4 @@ M2G.type = function ( type ): string { //TODO: Add support for JSON
 
 const {schema, model, plainObject, type} = M2G;
 
-export = Object.assign ( M2G, { default: M2G } );
-export {schema, model, plainObject, type};
+export = Object.assign ( M2G, { default: M2G, schema, model, plainObject, type } );
