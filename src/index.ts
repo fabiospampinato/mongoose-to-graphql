@@ -144,5 +144,5 @@ M2G.type = function ( type ): string { //TODO: Add support for JSON
 
 const {schema, model, plainObject, type} = M2G;
 
-export default M2G;
+export = Object.assign ( M2G, { default: M2G } );
 export {schema, model, plainObject, type};
