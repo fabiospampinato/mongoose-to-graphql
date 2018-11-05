@@ -1,8 +1,12 @@
 
+/* IMPORT */
+
+import {Schema} from 'mongoose';
+
 /* TYPES */
 
 type mongooseToGraphQL = {
-  (): string;
+  ( name: string, schema: {} | Schema ): string;
   schema: Function;
   model: Function;
   plainObject: Function;

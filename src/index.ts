@@ -16,9 +16,9 @@ import {mongooseToGraphQL} from './types';
 
 //TODO: Add support for { type: Something: ref: 'Model' }
 
-const M2G = function ( ...args ) {
+const M2G = function ( name: string, schema: {} | Schema ): string {
 
-  return M2G.schema ( ...args );
+  return M2G.schema ( name, schema );
 
 } as mongooseToGraphQL;
 
