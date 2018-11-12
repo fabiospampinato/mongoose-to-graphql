@@ -150,5 +150,6 @@ M2G.type = function ( type ): string { //TODO: Add support for JSON
 /* EXPORT */
 
 const {schema, model, plainObject, type} = M2G;
+const exp = Object.assign ( M2G as mongooseToGraphQL, { schema, model, plainObject, type } );
 
-export = Object.assign ( M2G as mongooseToGraphQL, { default: M2G as mongooseToGraphQL, schema, model, plainObject, type } );
+export default exp;
